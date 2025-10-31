@@ -90,7 +90,7 @@ export default function App() {
         <button onClick={sendMessage}>SEND</button>
       </div>
       <div id="messagebox">
-        {messages.map((message, index) => (
+        {messages.slice().reverse().map((message, index) => (
           <div id="messageCard" key={index}>
             <h4>{`${message.username} (${message.timestamp.hours}:${message.timestamp.minutes})`}</h4>
             <p>{message.message}</p>
