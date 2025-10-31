@@ -5,7 +5,7 @@ const HOST = "localhost";
 const PORT = 8000;
 const ROOM = "project1";
 
-const socket = io(`ws://${HOST}:${PORT}`);
+const socket = io(`ws://localhost:8000`);
 
 type MessageData = {
   username: string;
@@ -67,7 +67,10 @@ export default function App() {
   }
 
   return (
-    <div>
+    <div id="main">
+    <div id="inputs">
+      <h1>Chat Room</h1>
+      <h1>{connectionStatus}</h1>
       <input
         value={username}
         placeholder="Username"
@@ -80,13 +83,15 @@ export default function App() {
         onKeyDown={(e) => e.key === "Enter" && sendMessage()}
       ></input>
       <button onClick={sendMessage}>SEND</button>
-      <h1>{connectionStatus}</h1>
+      </div>
+      <div id="messagebox">
       {messages.map((message, index) => (
-        <div key={index}>
-          <p>{`${message.username} (${message.timestamp.hours}:${message.timestamp.minutes})`}</p>
+        <div id="messageCard" key={index}>
+          <h4>{`${message.username} (${message.timestamp.hours}:${message.timestamp.minutes})`}</h4>
           <p>{message.message}</p>
         </div>
       ))}
+      </div>
     </div>
   );
 }
