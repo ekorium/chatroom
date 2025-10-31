@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { io } from "socket.io-client";
-import "./global.css"
 
 const HOST = "localhost";
 const PORT = 8000;
