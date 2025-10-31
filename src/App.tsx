@@ -77,6 +77,7 @@ export default function App() {
         value={message}
         placeholder="Message"
         onChange={(e) => setMessage(e.target.value)}
+        onKeyDown={(e) => e.key === "Enter" && sendMessage()}
       ></input>
       <button onClick={sendMessage}>SEND</button>
       <h1>{connectionStatus}</h1>
