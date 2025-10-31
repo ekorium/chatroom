@@ -5,7 +5,7 @@ const HOST = "localhost";
 const PORT = 8000;
 const ROOM = "project1";
 
-const socket = io(`ws://${HOST}:${PORT}`);
+const socket = io(`ws://localhost:8000`);
 
 type MessageData = {
   username: string;
