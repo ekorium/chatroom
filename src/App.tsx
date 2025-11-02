@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { io } from "socket.io-client";
+import { MatrixRainingLetters } from "react-mdr";
 
 const HOST = "localhost";
 const PORT = 8000;
@@ -43,6 +44,14 @@ export default function App() {
     return () => void socket.current.removeAllListeners();
   }, [room]);
 
+  function Matrix() {
+    return (
+        <React.Fragment>
+            <MatrixRainingLetters key="matrix-bar" custom_class="m-0 p-0" />
+        </React.Fragment>
+    );
+}
+
   function sendMessage() {
     if (!username || !message) {
       alert("Please fill all fields");
@@ -66,6 +75,10 @@ export default function App() {
   }
 
   return (
+    <>
+    {connected && (
+      <MatrixRainingLetters key="matrix-bar" custom_class="matrix-bg" />
+    )}
     <div id="main">
       <div id="inputs">
         <h1>Chat Room</h1>
@@ -98,5 +111,6 @@ export default function App() {
         ))}
       </div>
     </div>
+    </>
   );
 }
