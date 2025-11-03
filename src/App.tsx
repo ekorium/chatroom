@@ -47,7 +47,7 @@ export default function App() {
   function Matrix() {
     return (
         <React.Fragment>
-            <MatrixRainingLetters key="matrix-bar" custom_class="m-0 p-0" />
+            <MatrixRainingLetters key="matrix-bar" custom_class="matrix-bg" />
         </React.Fragment>
     );
 }
@@ -81,8 +81,11 @@ export default function App() {
     )}
     <div id="main">
       <div id="inputs">
-        <h1>Chat Room</h1>
-        <h2>{connectionStatus}</h2>
+        <h1>Chatrix</h1>
+        <h2 style={{ color: connected ? "#00ac00" : "red" }}>
+  {connectionStatus}
+</h2>
+
         <input
           value={room}
           placeholder="Room"
