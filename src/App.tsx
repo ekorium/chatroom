@@ -44,13 +44,7 @@ export default function App() {
     return () => void socket.current.removeAllListeners();
   }, [room]);
 
-  function Matrix() {
-    return (
-        <React.Fragment>
-            <MatrixRainingLetters key="matrix-bar" custom_class="matrix-bg" />
-        </React.Fragment>
-    );
-}
+
 
   function sendMessage() {
     if (!username || !message) {
