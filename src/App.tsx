@@ -8,10 +8,7 @@ const PORT = 8000;
 type MessageData = {
   username: string;
   message: string;
-  timestamp: {
-    hours: string;
-    minutes: string;
-  };
+  timestamp: string;
 };
 
 export default function App() {
@@ -44,23 +41,18 @@ export default function App() {
     return () => void socket.current.removeAllListeners();
   }, [room]);
 
-
-
   function sendMessage() {
     if (!username || !message) {
       alert("Please fill all fields");
       return;
     }
 
-    const time = new Date();
+    const timestamp = new Date().toISOString();
 
     const allData: MessageData = {
       username,
       message,
-      timestamp: {
-        hours: time.getHours().toString().padStart(2, "0"),
-        minutes: time.getMinutes().toString().padStart(2, "0"),
-      },
+      timestamp,
     };
 
     setMessages((oldMessages) => [...oldMessages, allData]);
@@ -70,44 +62,56 @@ export default function App() {
 
   return (
     <>
-    {connected && (
-      <MatrixRainingLetters key="matrix-bar" custom_class="matrix-bg" />
-    )}
-    <div id="main">
-      <div id="inputs">
-        <h1>Chatrix</h1>
-        <h2 style={{ color: connected ? "#00ac00" : "red" }}>
-  {connectionStatus}
-</h2>
+      {connected && (
+        <MatrixRainingLetters key="matrix-bar" custom_class="matrix-bg" />
+      )}
+      <div id="main">
+        <div id="inputs">
+          <h1>Chatrix</h1>
+          <h2 style={{ color: connected ? "#00ac00" : "red" }}>
+            {connectionStatus}
+          </h2>
 
-        <input
-          value={room}
-          placeholder="Room"
-          onChange={(e) => setRoom(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-        ></input>
-        <input
-          value={username}
-          placeholder="Username"
-          onChange={(e) => setUsername(e.target.value)}
-        ></input>
-        <input
-          value={message}
-          placeholder="Message"
-          onChange={(e) => setMessage(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-        ></input>
-        <button onClick={sendMessage}>SEND</button>
+          <input
+            value={room}
+            placeholder="Room"
+            onChange={(e) => setRoom(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+          ></input>
+          <input
+            value={username}
+            placeholder="Username"
+            onChange={(e) => setUsername(e.target.value)}
+          ></input>
+          <input
+            value={message}
+            placeholder="Message"
+            onChange={(e) => setMessage(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+          ></input>
+          <button onClick={sendMessage}>SEND</button>
+        </div>
+        <div id="messagebox">
+          {messages
+            .slice()
+            .reverse()
+            .map((message, index) => {
+              const date = new Date(message.timestamp);
+              const timestamp = date.toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: false,
+              });
+
+              return (
+                <div id="messageCard" key={index}>
+                  <h4>{`${message.username} (${timestamp})`}</h4>
+                  <p>{message.message}</p>
+                </div>
+              );
+            })}
+        </div>
       </div>
-      <div id="messagebox">
-        {messages.slice().reverse().map((message, index) => (
-          <div id="messageCard" key={index}>
-            <h4>{`${message.username} (${message.timestamp.hours}:${message.timestamp.minutes})`}</h4>
-            <p>{message.message}</p>
-          </div>
-        ))}
-      </div>
-    </div>
     </>
   );
 }
